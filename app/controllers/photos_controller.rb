@@ -1,5 +1,13 @@
 class PhotosController < ApplicationController
 
+
+  def index
+    @photos = Photo.where(user_id: params[:user_id] )
+    respond_to do |format|
+      format.json { render json: @photos }
+    end
+  end
+
   def create
 
     photo = Photo.create(photo_params)
@@ -10,10 +18,12 @@ class PhotosController < ApplicationController
 
   end
 
-  def index
-    @photos = Photo.where(user_id: params[:user_id] )
+  def destroy
+    photo = Photo.find(params[:id])
+    photo.destroy
+
     respond_to do |format|
-      format.json { render json: @photos }
+      format.json { render json: photo }
     end
   end
 
