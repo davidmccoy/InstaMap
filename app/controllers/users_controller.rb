@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
     user = User.find_or_create_by(instagram_id: response.user.id.to_i) do |user| 
       user.name = response.user.full_name 
+      user.profile_picture = response.user.profile_picture
       map = Map.create(user_id: user.id)
     end
     
@@ -21,9 +22,9 @@ class UsersController < ApplicationController
     session[:user_id] = user.id
 
     if user.email
-      redirect_to '/users/#{user.id}'
+      redirect_to "/users/#{user.id}"
     else
-      redirect_to '/users/#{user.id}/complete_signup'
+      redirect_to "/users/#{user.id}/complete_signup"
     end
   end
 
