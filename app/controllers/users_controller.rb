@@ -35,23 +35,26 @@ class UsersController < ApplicationController
   end
 
   def import_recent
-    binding.pry
-    
+
     @user = User.find(params[:id])
     client = Instagram.client(:access_token => @user.instagram_access_token)
-    user = client.user
-    html = "<h1>#{user.username}'s recent media</h1>"
+    @photos = []
     client.user_recent_media.each do |media_item|
-      html << "<div style='float:left;'>
-                <img src='#{media_item.images.thumbnail.url}'>
-                <br/> 
-                <a href='/users/#{@user.id}/photos/import/#{media_item.id}'>Add to map</a>
-              </div>"
+      unless media_item.location == nil
+        photo = {}
+        photo[:user_id] = @user.id
+        photo[:image_url] = media_item.images.thumbnail.url
+        photo[:latitude] = media_item.location.latitude
+        photo[:longitude] = media_item.location.longitude
+        photo[:saved] = Photo.exists?(image_url: photo[:image_url])
+
+        @photos << photo
+      end
     end
 
     respond_to do |format|
-      format.html { render :text => html }
-      
+      format.html { render :import_recent }
+      format.json { render json: @photos }
     end
   end
 
