@@ -38,7 +38,7 @@ $(document).ready(function() {
     })
   }
 
-  $("input[type=submit]").on("click", function(event) {
+  $(document).on("click", "input[type=submit]", function(event) {
     $submit = $(this);
     if ($submit[0].value === "Submit") {
       return;
