@@ -1,0 +1,7 @@
+<%= form_for(@user, :as => 'user', :url => complete_signup_path(@user), :html => { role: 'form'}) do |f| %>
+    <%= f.text_field :email, :autofocus => true, :value => '', placeholder: 'Example: email@me.com' %>
+
+    <p>Please confirm your email address.</p>
+
+    <%= f.submit 'Continue' %>
+<% end %>
