@@ -12,7 +12,7 @@
   function initialize() {
 
     $.ajax({
-        url: "http://localhost:3000/users/" + <%= "#{@user.id}" %> + "/photos",
+        url: "/users/" + <%= "#{@user.id}" %> + "/photos",
         type: "get"
      }).done(function(data) {
         console.log(data);
