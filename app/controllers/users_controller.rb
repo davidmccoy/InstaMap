@@ -2,13 +2,13 @@ class UsersController < ApplicationController
 
   # Instagram ouauth redirect
   def oauth
-    redirect_to Instagram.authorize_url(:redirect_uri => "http://localhost:3000/callback")
+    redirect_to Instagram.authorize_url(:redirect_uri => "http://instamapapp.herokuapp.com/callback")
   end
 
   # Instagram oauth callback currently malfunctioning on Instagram's end
   def oauth_callback
 
-    response = Instagram.get_access_token(params[:code], :redirect_uri => "http://localhost:3000/callback")
+    response = Instagram.get_access_token(params[:code], :redirect_uri => "http://instamapapp.herokuapp.com/callback")
 
     user = User.find_or_create_by(instagram_id: response.user.id.to_i) do |user| 
       user.name = response.user.full_name 
