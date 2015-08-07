@@ -39,12 +39,12 @@ $(document).ready(function() {
   }
 
   $("input[type=submit]").on("click", function(event) {
+    $submit = $(this);
     if ($submit[0].value === "Submit") {
       return;
     } else {
       event.preventDefault();
     }
-    $submit = $(this);
     $form = $submit.parent();
     user_id = $form.find("input#user_id")[0].value;
     image_url = $form.parent().find("input#image_url")[0].value;
