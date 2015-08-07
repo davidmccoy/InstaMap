@@ -7,20 +7,24 @@ class UsersController < ApplicationController
 
   # Instagram oauth callback currently malfunctioning on Instagram's end
   def oauth_callback
-    # response = Instagram.get_access_token(params[:code], :redirect_uri => "http://localhost:3000/callback")
-    # session[:access_token] = response.access_token
 
-    # user = User.find_or_create_by(instagram_id: response.user.id.to_i) do |user| 
-    #   user.name = response.user.full_name }
-    #   map = Map.create(user_id: user.id)
-    # end
+    response = Instagram.get_access_token(params[:code], :redirect_uri => "http://localhost:3000/callback")
+
+    user = User.find_or_create_by(instagram_id: response.user.id.to_i) do |user| 
+      user.name = response.user.full_name 
+      map = Map.create(user_id: user.id)
+    end
     
-    # user.instagram_access_token = response.access_token
+    user.instagram_access_token = response.access_token
 
-    # user.save
+    user.save
+    session[:user_id] = user.id
 
-    # redirect_to '/users/#{user.id}/complete_signup'
-    redirect_to '/'
+    if user.email
+      redirect_to '/users/#{user.id}'
+    else
+      redirect_to '/users/#{user.id}/complete_signup'
+    end
   end
 
   # Collect email address
@@ -63,6 +67,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @map = @user.map
   end
 
   private
