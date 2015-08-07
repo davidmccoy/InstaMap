@@ -10,6 +10,13 @@ class PhotosController < ApplicationController
 
   end
 
+  def index
+    @photos = Photo.where(user_id: params[:user_id] )
+    respond_to do |format|
+      format.json { render json: @photos }
+    end
+  end
+
   private
 
     def photo_params

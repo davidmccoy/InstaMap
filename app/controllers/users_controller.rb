@@ -10,7 +10,10 @@ class UsersController < ApplicationController
     # response = Instagram.get_access_token(params[:code], :redirect_uri => "http://localhost:3000/callback")
     # session[:access_token] = response.access_token
 
-    # user = User.find_or_create_by(instagram_id: response.user.id.to_i) { |user| user.name = response.user.full_name }
+    # user = User.find_or_create_by(instagram_id: response.user.id.to_i) do |user| 
+    #   user.name = response.user.full_name }
+    #   map = Map.create(user_id: user.id)
+    # end
     
     # user.instagram_access_token = response.access_token
 
