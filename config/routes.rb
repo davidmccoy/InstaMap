@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   # session sign in/out
-  get '/users/login' => 'session#new'
-  post '/session' => 'session#create'
-  get '/users/signout' => 'session#destroy'
+  get '/users/login' => 'sessions#new'
+  post '/session' => 'sessions#create'
+  get '/users/signout' => 'sessions#destroy'
 
   # Instagram auth routes
   get '/oauth' => 'users#oauth'

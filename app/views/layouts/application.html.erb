@@ -2,15 +2,51 @@
 <html>
 <head>
   <title>Instamap</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA05TWwYl5omZGDmpJy1JeuJYGDz1w-9M8"
     type="text/javascript"></script>
 </head>
 <body>
+  <div id="menubar">
+    <div id="logo">
+      InstaMap
+    </div>
+    <div id="nav">
+      <% if logged_in? %>
+        <ul>
+          <li>
+            <%= link_to "Your Map", "/users/#{current_user.id}/" %>
+          </li>
+          <li>
+            <%= link_to "Manage Photos", "/users/#{current_user.id}/photos" %>
+          </li>
+          <li>
+            <%= link_to "Import Photos", "/users/#{current_user.id}/import_recent" %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+    <div id="signin">
+      <% if logged_in? %>
+        <div class="signin-text">
+          <%= current_user.name %>
+          <%= link_to "(Sign out)", "/users/signout" %>
+        </div>
+        <div id="user-image" style="background-image: url(<%= current_user.profile_picture %>); background-size: cover; height: 50px; width: 50px; float: right">
+        </div>
+      <% else %>
+        <div class="signin-text">
+          <%= link_to "Sign with Instagram", "/oauth" %>
+        </div>
+      <% end %>
+    </div>  
+  </div>
 
-<%= yield %>
+  <div id="wrapper">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

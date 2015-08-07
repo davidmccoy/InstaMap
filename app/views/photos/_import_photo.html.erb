@@ -1,0 +1,25 @@
+<div class="import-photo" style='float:left;'>
+  <br/> 
+  <% if photo[:saved] == true %>
+    <img src='<%= "#{photo[:image_url]}" %>'>
+    <% saved_photo = Photo.find_by(image_url: photo[:image_url]) %>
+    <%= form_for([@user, saved_photo], remote: true) do |f| %>
+      <%= hidden_field_tag "user_id", "#{photo[:user_id]}"  %>
+      <%= hidden_field_tag "image_url", "#{photo[:image_url]}"  %>
+      <%= hidden_field_tag "latitude", "#{photo[:latitude]}"  %>
+      <%= hidden_field_tag "longitude", "#{photo[:longitude]}"  %>
+      <%= hidden_field_tag "saved", "#{photo[:saved]}"  %>
+      <%= f.submit("Remove from map", id: saved_photo.id) %>
+    <% end %>
+  <% else %>
+    <img src='<%= "#{photo[:image_url]}" %>'>
+    <%= form_for([@user, Photo.new], remote: true) do |f| %>
+      <%= hidden_field_tag "user_id", "#{photo[:user_id]}"  %>
+      <%= hidden_field_tag "image_url", "#{photo[:image_url]}"  %>
+      <%= hidden_field_tag "latitude", "#{photo[:latitude]}"  %>
+      <%= hidden_field_tag "longitude", "#{photo[:longitude]}"  %>
+      <%= hidden_field_tag "saved", "#{photo[:saved]}"  %>
+      <%= f.submit("Add to map") %>
+    <% end %>
+  <% end %>
+</div>

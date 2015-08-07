@@ -1,1 +1,73 @@
-<%= link_to "Import recent photos from Instagram", "/users/#{@user.id}/import_recent" %>
+<div id="inner-wrapper">
+
+  <div id="map-container">
+    <div id="map-canvas">
+      InstaMap
+    </div>
+    <div id="target"></div>
+  </div>
+</div>
+
+<script>
+  function initialize() {
+
+    $.ajax({
+        url: "http://localhost:3000/users/" + <%= "#{@user.id}" %> + "/photos",
+        type: "get"
+     }).done(function(data) {
+        console.log(data);
+        onDataLoaded(data);
+    });
+
+    var mapOptions = {
+      center: new google.maps.LatLng(40.7590615, -73.969231,12),
+      zoom: 2
+    };
+
+
+  //Create map and add to "map-canvas" div
+    var map = new google.maps.Map(document.getElementById("map-canvas"),
+        mapOptions);
+
+
+    // Runs when we get a response from the server
+    onDataLoaded = function(photos) {  
+
+      var photos = photos;
+
+      // If the array of user's data isn't empty
+      if(photos.length > 0) {
+
+        // Iterate over the array of user's photos
+        for (var i in photos ){
+          
+          // Create a pin with the photo
+          var photo = photos[i]
+            
+          var image = {
+            url: photos[i].image_url,
+            size: new google.maps.Size(50, 50),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(25, 25),
+            scaledSize: new google.maps.Size(50, 50)
+          };
+
+          var myLatLng = new google.maps.LatLng(photo.latitude, photo.longitude);
+
+          var customMarker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              icon: image
+          });
+
+        }
+      } else {
+        // Display error if no photos in the array
+        $('#target').append("<p>Hmm...I couldn't find anything to display! Try importing your photos from Instagram!</p>");
+      }
+    }
+  }
+
+
+  $(document).ready(initialize);
+</script>

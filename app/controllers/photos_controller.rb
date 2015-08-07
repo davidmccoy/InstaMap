@@ -2,9 +2,11 @@ class PhotosController < ApplicationController
 
 
   def index
+    @user = User.find(params[:user_id])
     @photos = Photo.where(user_id: params[:user_id] )
     respond_to do |format|
       format.json { render json: @photos }
+      format.html { render :index }
     end
   end
 
