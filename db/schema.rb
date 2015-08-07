@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807043102) do
+ActiveRecord::Schema.define(version: 20150807124512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "maps", force: :cascade do |t|
+    t.integer "user_id"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.integer "user_id"
+    t.string  "instagram_photo_id"
+    t.string  "image_url"
+    t.string  "latitude"
+    t.string  "longitude"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string  "name"
